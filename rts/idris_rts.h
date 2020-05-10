@@ -5,10 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#ifdef HAS_PTHREAD
-#include <stdarg.h>
-#include <pthread.h>
-#endif
 
 #include "idris_heap.h"
 #include "idris_stats.h"
@@ -139,21 +135,6 @@ struct VM {
 
     CHeap c_heap;
     Heap heap;
-#ifdef HAS_PTHREAD
-    pthread_mutex_t inbox_lock;
-    pthread_mutex_t inbox_block;
-    pthread_mutex_t alloc_lock;
-    pthread_cond_t inbox_waiting;
-
-    Msg* inbox; // Block of memory for storing messages
-    Msg* inbox_end; // End of block of memory
-    int inbox_nextid; // Next channel id
-    Msg* inbox_write; // Location of next message to write
-
-    int processes; // Number of child processes
-    int max_threads; // maximum number of threads to run in parallel
-    struct VM* creator; // The VM that created this VM, NULL for root VM
-#endif
     Stats stats;
 
     VAL ret;
@@ -205,7 +186,6 @@ Stats terminate(VM* vm);
 
 // Create a new VM, set up everything with sensible defaults (use when
 // calling Idris from C)
-VM* idris_vm(void);
 void close_vm(VM* vm);
 
 // Set up key for thread-local data - called once from idris_main
