@@ -430,7 +430,7 @@ VAL idris_castBitsStr(VM* vm, VAL i) {
         break;
     default:
         fprintf(stderr, "Fatal Error: ClosureType %d, not an integer type", ty);
-        exit(EXIT_FAILURE);
+        exit(ERR_WRONG_CLOSURE_TYPE);
     }
     return (VAL)cl;
 }
@@ -517,7 +517,7 @@ VAL idris_readChars(VM* vm, int num, FILE* h) {
 
 void idris_crash(char* msg) {
     fprintf(stderr, "%s\n", msg);
-    exit(1);
+    exit(ERR_IDRIS_CRASH);
 }
 
 VAL idris_strHead(VM* vm, VAL str) {
@@ -740,5 +740,5 @@ void idris_disableBuffering(void) {
 
 void stackOverflow(void) {
   fprintf(stderr, "Stack overflow");
-  exit(-1);
+  exit(ERR_STACK_OVERFLOW);
 }

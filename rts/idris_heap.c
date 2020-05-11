@@ -115,7 +115,7 @@ void alloc_heap(Heap * h, size_t heap_size, size_t growth, char * old)
         fprintf(stderr,
                 "RTS ERROR: Unable to allocate heap. Requested %zd bytes.\n",
                 heap_size);
-        exit(EXIT_FAILURE);
+        exit(ERR_CANT_ALLOC_HEAP);
     }
     memset(mem, 0, heap_size);
 
@@ -144,7 +144,7 @@ void heap_check_underflow(Heap * heap) {
     if (!(heap->heap <= heap->next)) {
        fprintf(stderr, "RTS ERROR: HEAP UNDERFLOW <bot %p> <cur %p>\n",
                heap->heap, heap->next);
-        exit(EXIT_FAILURE);
+        exit(ERR_HEAP_UNDERFLOW);
     }
 }
 
@@ -152,7 +152,7 @@ void heap_check_overflow(Heap * heap) {
     if (!(heap->next <= heap->end)) {
        fprintf(stderr, "RTS ERROR: HEAP OVERFLOW <cur %p> <end %p>\n",
                heap->next, heap->end);
-        exit(EXIT_FAILURE);
+        exit(ERR_HEAP_OVERFLOW);
     }
 }
 
@@ -207,7 +207,7 @@ void heap_check_pointers(Heap * heap) {
                                  "RTS ERROR: heap closure broken. "\
                                  "<HEAP %p %p %p> <REF %p>\n",
                                  heap->heap, heap->next, heap->end, ptr);
-                         exit(EXIT_FAILURE);
+                         exit(ERR_HEAP_CLOSURE_BROKEN);
                      }
 #if 0 // TODO macro
                      // Check for unidirectionality.
@@ -216,7 +216,7 @@ void heap_check_pointers(Heap * heap) {
                                  "RTS ERROR: heap unidirectionality broken:" \
                                  "<CT_CON %p> <FIELD %p>\n",
                                  heap_item, ptr);
-                         exit(EXIT_FAILURE);
+                         exit(ERR_HEAP_INDIRECTIONALITY_BROKEN);
                      }
 #endif
                  }
@@ -226,7 +226,7 @@ void heap_check_pointers(Heap * heap) {
        case CT_FWD:
            // Check for artifacts after cheney gc.
            fprintf(stderr, "RTS ERROR: CT_FWD in working heap.\n");
-           exit(EXIT_FAILURE);
+           exit(ERR_CT_FWD_IN_WORKING_HEAP);
            break;
        default:
            break;

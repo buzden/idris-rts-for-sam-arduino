@@ -17,6 +17,25 @@
 #define EXIT_FAILURE 1
 #endif
 
+enum {
+  ERR_SUCCESS         = EXIT_SUCCESS,
+  ERR_GENERAL_FAIL    = EXIT_FAILURE,
+  ERR_IDRIS_CRASH     = 2,
+  ERR_UNEXPECTED_EXIT = 3,
+
+  ERR_STACK_OVERFLOW  = 11,
+  ERR_HEAP_UNDERFLOW  = 12,
+  ERR_HEAP_OVERFLOW   = 13,
+  ERR_CANT_ALLOC_HEAP = 14,
+
+  ERR_WRONG_CLOSURE_TYPE           = 31,
+  ERR_HEAP_CLOSURE_BROKEN          = 32,
+  ERR_HEAP_INDIRECTIONALITY_BROKEN = 33,
+  ERR_CT_FWD_IN_WORKING_HEAP       = 34,
+
+  ERR_THE_LAST = 50 // The maximal numberically
+};
+
 // Closures
 typedef enum {
     CT_CON, CT_ARRAY, CT_INT, CT_BIGINT,

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "Arduino.h"
+#include "idris_rts.h"
 
 //////////////////////
 /// System exiting ///
@@ -8,7 +9,7 @@
 
 #define BUILTIN_LED 13
 
-#define MAX_SHOWN_EXITCODE 32
+#define MAX_SHOWN_EXITCODE ERR_THE_LAST
 
 static void blinkBuiltin(int t) {
   digitalWrite(BUILTIN_LED, HIGH);

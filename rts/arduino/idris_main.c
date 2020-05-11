@@ -27,5 +27,5 @@ int main() {
 
     terminate(vm);
 
-    return 0;
+    return ERR_UNEXPECTED_EXIT;
 }
