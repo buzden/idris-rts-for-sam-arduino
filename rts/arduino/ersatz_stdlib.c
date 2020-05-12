@@ -2,6 +2,7 @@
 
 #include "Arduino.h"
 #include "idris_rts.h"
+#include "cpp_wrappers.h"
 
 //////////////////////
 /// System exiting ///
@@ -53,4 +54,44 @@ void exit(int exit_code) {
 
     delay(2000);
   }
+}
+
+//////////////////////////////
+/// Simple string printing ///
+//////////////////////////////
+
+int puts(const char *str) {
+  return serial_print_str_unready(str);
+}
+
+int fputs(const char *str, FILE *stream) {
+  return puts(str);
+}
+
+////////////////////////////////////////
+/// `printf`-like formatted printing ///
+////////////////////////////////////////
+
+#define MAX_LINE_SIZE 50
+
+int vprintf(const char *format_str, va_list args) {
+  char str[MAX_LINE_SIZE];
+  vsnprintf(str, MAX_LINE_SIZE, format_str, args);
+  return puts(str);
+}
+
+int printf(const char *format_str, ...) {
+  int res;
+  va_list args; va_start(args, format_str); {
+    res = vprintf(format_str, args);
+  } va_end(args);
+  return res;
+}
+
+int fprintf(FILE *stream, const char *format_str, ...) {
+  int res;
+  va_list args; va_start(args, format_str); {
+    res = vprintf(format_str, args);
+  } va_end(args);
+  return res;
 }
