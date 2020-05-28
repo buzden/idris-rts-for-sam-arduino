@@ -12,7 +12,7 @@
 // This is highly dodgy and needs to be done better because who knows if
 // GMP will need to allocate more than 64k... better to work out how
 // much space is needed (or find another way of preventing copying)
-#define IDRIS_MAXGMP 65536
+#define IDRIS_MAXGMP 8196
 
 void init_gmpalloc(void) {
     mp_set_memory_functions(idris_alloc, idris_realloc, idris_free);
